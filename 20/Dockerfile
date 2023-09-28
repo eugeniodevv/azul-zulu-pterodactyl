@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:20-latest
+FROM azul/zulu-openjdk-debian:20-latest
 
 LABEL author="eugeniodevv"
 
