@@ -6,7 +6,7 @@ on: [push]
 
 jobs:
   docker:
-    name: "prime_${{ matrix.tag }}"
+    name: "ZULU_${{ matrix.tag }}"
     runs-on: ubuntu-latest # guess I'll need to cope with it being Ubuntu
     strategy:
       fail-fast: false
