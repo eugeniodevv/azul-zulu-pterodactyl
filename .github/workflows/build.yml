@@ -6,7 +6,7 @@ on: [push]
 
 jobs:
   docker:
-    name: "ZULU_${{ matrix.tag }}"
+    name: "zulu_${{ matrix.tag }}"
     runs-on: ubuntu-latest # guess I'll need to cope with it being Ubuntu
     strategy:
       fail-fast: false
