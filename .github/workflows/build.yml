@@ -1,0 +1,47 @@
+# Some parts are based off https://github.com/parkervcp/yolks/blob/master/.github/workflows/java.yml
+
+name: Build and publish Docker image
+
+on: [push]
+
+jobs:
+  docker:
+    name: "prime_${{ matrix.tag }}"
+    runs-on: ubuntu-latest # guess I'll need to cope with it being Ubuntu
+    strategy:
+      fail-fast: false
+      matrix:
+        tag:
+          - 20
+          - 17
+          - 16
+          - 11
+          - 8
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          buildkitd-flags: --debug
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
+      
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./
+          file: ./${{ matrix.tag }}/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ghcr.io/eugeniodevv/azul-zulu-pterodactyl:azul-zulu_${{ matrix.tag }}
